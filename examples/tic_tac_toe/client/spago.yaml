@@ -1,0 +1,13 @@
+package:
+  name: tic-tac-toe-client
+  dependencies:
+    - console
+    - effect
+    - prelude
+    - integers
+    - halogen
+    - partykit
+  test:
+    main: Test.Main
+    dependencies: []
+

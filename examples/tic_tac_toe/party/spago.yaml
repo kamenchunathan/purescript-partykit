@@ -1,0 +1,10 @@
+package:
+  name: tic-tac-toe-server
+  dependencies:
+    - console
+    - effect
+    - prelude
+  test:
+    main: Test.Main
+    dependencies: []
+

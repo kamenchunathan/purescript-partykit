@@ -1,0 +1,6 @@
+workspace:
+  packageSet:
+    registry: 50.1.2
+  extraPackages: 
+    partykit:
+      path: ../../
