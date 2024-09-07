@@ -1,10 +1,16 @@
 package:
   name: partykit
   dependencies:
+    - aff
+    - aff-promise
+    - arraybuffer-types
     - console
     - effect
+    - either
     - nullable
+    - option
     - prelude
+    - record
     - web-events
   test:
     main: Test.Main
@@ -12,4 +18,7 @@ package:
 workspace:
   packageSet:
     registry: 50.1.2
-  extraPackages: {}
+  extraPackages:
+    option:
+      git: https://github.com/kamenchunathan/purescript-option.git
+      ref: f6f46ffe48047873a4e76d45fb86cf705040ceec

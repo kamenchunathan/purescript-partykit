@@ -14,15 +14,15 @@
     "clean": "rm -rf node_modules .spago dist output"
   },
   "devDependencies": {
-    "autoprefixer": "^10.4.14",
+    "autoprefixer": "^10.4.20",
     "concurrently": "^8.2.2",
-    "postcss": "^8.4.23",
-    "purescript": "0.15.4",
-    "spago": "^0.93.39",
-    "tailwindcss": "^3.2.6",
-    "typescript": "^4.9.3",
-    "vite": "^4.1.0",
-    "partykit": "0.0.110"
+    "partykit": "0.0.110",
+    "postcss": "^8.4.45",
+    "purescript": "^0.15.15",
+    "spago": "=0.93.38",
+    "tailwindcss": "^3.4.10",
+    "typescript": "^4.9.5",
+    "vite": "^4.5.3"
   },
   "dependencies": {
     "partysocket": "1.0.2"

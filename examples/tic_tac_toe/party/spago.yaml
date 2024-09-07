@@ -1,10 +1,12 @@
 package:
   name: tic-tac-toe-server
   dependencies:
+    - aff
+    - aff-promise
     - console
     - effect
+    - partykit
     - prelude
   test:
     main: Test.Main
     dependencies: []
-
