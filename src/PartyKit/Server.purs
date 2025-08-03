@@ -18,6 +18,7 @@ import Prelude
 import Control.Promise (Promise, fromAff)
 import Data.ArrayBuffer.Types (ArrayBuffer)
 import Data.Either (Either(..))
+import Data.Nullable as Nullable
 import Effect (Effect)
 import Effect.Aff (Aff, Error)
 import Effect.Uncurried
@@ -28,13 +29,12 @@ import Effect.Uncurried
   , mkEffectFn3
   , runEffectFn1
   )
-import Option as Option
-import Prim.Row (class Union)
-import Record as Record
 import Type.Proxy (Proxy(..))
-import Unsafe.Coerce (unsafeCoerce)
 import PartyKit.Server.Connection (Connection)
 import PartyKit.Server.Room (Room)
+import Prim.Row (class Union)
+import Record as Record
+import Unsafe.Coerce (unsafeCoerce)
 
 foreign import data ConnectionContext ∷ Type
 foreign import data Request ∷ Type
@@ -44,7 +44,6 @@ foreign import data ExecutionContext ∷ Type
 foreign import data PartyServer ∷ Type
 
 type RequiredArgs = (constructor :: Room -> Effect Unit)
-type RequiredArgsImpl = (constructor :: EffectFn1 Room Unit)
 
 type OptionalArgs =
   ( onConnect :: PartyServer -> Connection -> ConnectionContext -> Effect Unit
@@ -58,54 +57,75 @@ type OptionalArgs =
   , onBeforeConnect :: Request -> Lobby -> ExecutionContext -> Aff Request
   )
 
-type OptionalArgsImpl =
-  ( onConnect :: EffectFn2 Connection ConnectionContext Unit
-  , onStart :: Effect (Promise Unit)
+type ArgsImpl =
+  ( 
+  constructor :: Nullable.Nullable ( EffectFn1 Room Unit)
+  ,  onConnect :: Nullable.Nullable ( EffectFn2 Connection ConnectionContext Unit)
+  , onStart :: Nullable.Nullable ( Effect (Promise Unit))
   -- The void argument could either be a string or arraybuffer
-  , onMessage :: EffectFn2 Void Connection (Promise Unit)
-  , onClose :: EffectFn1 Connection (Promise Unit)
-  , onError :: EffectFn2 Connection Error (Promise Unit)
-  , onRequest :: EffectFn1 Request (Promise Unit)
-  , onAlarm :: Effect (Promise Unit)
-  , onBeforeRequest :: EffectFn3 Request Lobby ExecutionContext (Promise Request)
-  , onBeforeConnect :: EffectFn3 Request Lobby ExecutionContext (Promise Request)
+  , onMessage :: Nullable.Nullable ( EffectFn2 Void Connection (Promise Unit))
+  , onClose :: Nullable.Nullable ( EffectFn1 Connection (Promise Unit))
+  , onError :: Nullable.Nullable ( EffectFn2 Connection Error (Promise Unit))
+  , onRequest :: Nullable.Nullable ( EffectFn1 Request (Promise Unit))
+  , onAlarm :: Nullable.Nullable ( Effect (Promise Unit))
+  , onBeforeRequest :: Nullable.Nullable ( EffectFn3 Request Lobby ExecutionContext (Promise Request))
+  , onBeforeConnect :: Nullable.Nullable ( EffectFn3 Request Lobby ExecutionContext (Promise Request))
   )
 
-foreign import eitherImpl :: forall a b c d. (a -> Either a b) -> (b -> Either a b) -> (Either a b -> c) -> d -> c
+foreign import eitherImpl
+  :: forall a b c d
+   . (a -> Either a b)
+  -> (b -> Either a b)
+  -> (Either a b -> c)
+  -> d
+  -> c
 
 foreign import createImpl :: ∀ r. EffectFn1 r PartyServer
 
--- Necessary to add union constraint
-createImpl' :: ∀ r. Union RequiredArgsImpl OptionalArgsImpl r => EffectFn1 (Option.Option r) PartyServer
-createImpl' = createImpl
-
-create ∷ ∀ r. Option.FromRecord r RequiredArgs OptionalArgs => Record r -> Effect PartyServer
+create
+  ∷ ∀ args r complete
+   . Union args r OptionalArgs
+  => Union RequiredArgs args complete
+  => Record complete
+  -> Effect PartyServer
 create args =
-  runEffectFn1 createImpl' (Option.insert' required optional)
+  runEffectFn1 createImpl argsImpl
   where
-  recordArgs :: Option.Record RequiredArgs OptionalArgs
-  recordArgs = Option.recordFromRecord args
+  recordArgs
+    :: { constructor :: Nullable.Nullable (Room -> Effect Unit)
+       , onConnect :: Nullable.Nullable (PartyServer -> Connection -> ConnectionContext -> Effect Unit)
+       , onStart :: Nullable.Nullable (PartyServer -> Aff Unit)
+       , onMessage :: Nullable.Nullable (PartyServer -> (Either String ArrayBuffer) -> Connection -> Aff Unit)
+       , onClose :: Nullable.Nullable (PartyServer -> Connection -> Aff Unit)
+       , onError :: Nullable.Nullable (PartyServer -> Connection -> Error -> Aff Unit)
+       , onRequest :: Nullable.Nullable (PartyServer -> Request -> Aff Unit)
+       , onAlarm :: Nullable.Nullable (PartyServer -> Aff Unit)
+       , onBeforeRequest :: Nullable.Nullable (Request -> Lobby -> ExecutionContext -> Aff Request)
+       , onBeforeConnect :: Nullable.Nullable (Request -> Lobby -> ExecutionContext -> Aff Request)
+       }
+  recordArgs = unsafeCoerce args
 
-  required =
-    recordArgs
-      # Option.required
-      # Record.modify (Proxy @"constructor") mkEffectFn1
+  mapNullable :: forall a b. (a -> b) -> Nullable.Nullable a -> Nullable.Nullable b
+  mapNullable f = Nullable.toMaybe >>> (map f) >>> Nullable.toNullable
 
-  optional =
+  argsImpl :: Record ArgsImpl
+  argsImpl =
     recordArgs
-      # Option.optional
-      # Option.modify (Proxy @"onConnect") mkEffectMethod3
-      # Option.modify (Proxy @"onStart") (mkEffectMethod1 <<< (<<<) fromAff)
-      # Option.modify (Proxy @"onMessage")
-          ( \f -> mkEffectMethod3
-              (\a b c -> fromAff $ (flip $ (eitherImpl Left Right <<< flip) f) a b c)
+      # Record.modify (Proxy @"constructor") (mapNullable mkEffectFn1)
+      # Record.modify (Proxy @"onConnect") (mapNullable mkEffectMethod3)
+      # Record.modify (Proxy @"onStart") (mapNullable (mkEffectMethod1 <<< (<<<) fromAff))
+      # Record.modify (Proxy @"onMessage")
+          ( mapNullable
+              ( \f -> mkEffectMethod3
+                  (\a b c -> fromAff $ (flip $ (eitherImpl Left Right <<< flip) f) a b c)
+              )
           )
-      # Option.modify (Proxy @"onClose") (\f -> mkEffectMethod2 (\a b -> fromAff $ f a b))
-      # Option.modify (Proxy @"onError") (\f -> mkEffectMethod3 (\a b c -> fromAff $ f a b c))
-      # Option.modify (Proxy @"onRequest") (\f -> mkEffectMethod2 (\a b -> fromAff $ f a b))
-      # Option.modify (Proxy @"onAlarm") (mkEffectMethod1 <<< (<<<) fromAff)
-      # Option.modify (Proxy @"onBeforeRequest") (\f -> mkEffectFn3 (\a b c -> fromAff $ f a b c))
-      # Option.modify (Proxy @"onBeforeConnect") (\f -> mkEffectFn3 (\a b c -> fromAff $ f a b c))
+      # Record.modify (Proxy @"onClose") (mapNullable (\f -> mkEffectMethod2 (\a b -> fromAff $ f a b)))
+      # Record.modify (Proxy @"onError") (mapNullable (\f -> mkEffectMethod3 (\a b c -> fromAff $ f a b c)))
+      # Record.modify (Proxy @"onRequest") (mapNullable (\f -> mkEffectMethod2 (\a b -> fromAff $ f a b)))
+      # Record.modify (Proxy @"onAlarm") (mapNullable (mkEffectMethod1 <<< (<<<) fromAff))
+      # Record.modify (Proxy @"onBeforeRequest") (mapNullable (\f -> mkEffectFn3 (\a b c -> fromAff $ f a b c)))
+      # Record.modify (Proxy @"onBeforeConnect") (mapNullable (\f -> mkEffectFn3 (\a b c -> fromAff $ f a b c)))
 
 foreign import mkEffectMethod1 :: forall this r. (this -> Effect r) -> Effect r
 

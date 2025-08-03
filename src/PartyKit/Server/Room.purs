@@ -15,8 +15,7 @@ module PartyKit.Server.Room
   , put
   , storage
   , vectorize
-  )
-  where
+  ) where
 
 import Prelude
 
@@ -60,20 +59,20 @@ vectorize = unsafeCoerce >>> _.ai
 -- TODO:(nathan) Add ArrayBuffer 
 foreign import broadcast :: Room -> String -> Array String -> Effect Unit
 
-parties :: Context -> Foreign 
+parties :: Context -> Foreign
 parties = unsafeCoerce >>> _.uri
 
-foreign import getImpl :: forall @a. EffectFn2 Storage String  (Promise (Nullable a))
+foreign import getImpl :: forall @a. EffectFn2 Storage String (Promise (Nullable a))
 
 get :: forall a. Storage -> String -> Aff (Maybe a)
 get s k = (runEffectFn2 getImpl s k) # toAffE <#> toMaybe
 
-foreign import putImpl :: forall a. EffectFn3 Storage  String  a  (Promise Unit)
+foreign import putImpl :: forall a. EffectFn3 Storage String a (Promise Unit)
 
 put :: forall a. Storage -> String -> a -> Aff Unit
 put s k v = (runEffectFn3 putImpl s k v) # toAffE
 
-foreign import deleteImpl :: EffectFn2 Storage  String  (Promise Boolean)
+foreign import deleteImpl :: EffectFn2 Storage String (Promise Boolean)
 
 delete :: Storage -> String -> Aff Boolean
 delete s k = runEffectFn2 deleteImpl s k # toAffE
@@ -82,5 +81,4 @@ foreign import deleteAllImpl :: EffectFn1 Storage (Promise Unit)
 
 deleteAll :: Storage -> Aff Unit
 deleteAll s = runEffectFn1 deleteAllImpl s # toAffE
-
 

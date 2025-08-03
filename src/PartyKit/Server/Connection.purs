@@ -3,8 +3,7 @@ module PartyKit.Server.Connection
   , id
   , send
   , uri
-  )
-  where
+  ) where
 
 import Prelude
 
@@ -13,7 +12,6 @@ import Effect.Uncurried (EffectFn2, runEffectFn2)
 import Unsafe.Coerce (unsafeCoerce)
 
 foreign import data Connection ∷ Type
-
 
 id :: Connection -> String
 id = unsafeCoerce >>> _.id
@@ -25,24 +23,4 @@ foreign import sendImpl :: EffectFn2 Connection String Unit
 
 send :: Connection -> String -> Effect Unit
 send = runEffectFn2 sendImpl
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
