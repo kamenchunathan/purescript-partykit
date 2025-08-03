@@ -10,7 +10,7 @@ export function createImpl(properties) {
       continue;
     }
     // static functions
-    else if (key === 'onBeforeRequest') {
+    else if (key === 'onBeforeRequest' || key === 'onBeforeConnect') {
       Object(PartyServer.prototype, key, { value });
       continue;
     }
