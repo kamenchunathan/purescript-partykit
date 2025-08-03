@@ -1,7 +1,5 @@
 {
-
-  description = "A Lambda Calculus parser";
-  
+  description = "partykit";
   inputs = {
     nixpkgs.url = "https://flakehub.com/f/NixOS/nixpkgs/0.1.*.tar.gz";
     purescript-overlay = {
@@ -36,7 +34,7 @@
           pkgs = nixpkgsFor.${system};
         in { 
           default = pkgs.mkShell {
-            name = "lambda-calculus-parser";
+            name = "partykit";
             buildInputs = with pkgs; [
               nodejs_20
               nodePackages.pnpm
