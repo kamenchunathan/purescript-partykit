@@ -2,12 +2,16 @@ package:
   name: tic-tac-toe-client
   dependencies:
     - console
+    - debug
     - effect
-    - prelude
-    - integers
+    - foreign
     - halogen
+    - integers
+    - newtype
     - partykit
+    - prelude
+    - simple-json
+    - web-events
   test:
     main: Test.Main
     dependencies: []
-

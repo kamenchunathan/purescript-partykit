@@ -4,6 +4,7 @@ package:
     - console
     - effect
     - prelude
+    - simple-json
   test:
     main: Test.Main
     dependencies: []
