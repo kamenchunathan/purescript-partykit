@@ -1,17 +1,21 @@
 export function createImpl(properties) {
   let PartyServer = class {
     constructor(room) {
+      this.room = room;
       properties.constructor(room)
     }
   }
 
   for (const [key, value] of Object.entries(properties)) {
+    if (value == null) {
+      continue
+    }
     if (key == 'constructor') {
       continue;
     }
     // static functions
     else if (key === 'onBeforeRequest' || key === 'onBeforeConnect') {
-      Object(PartyServer.prototype, key, { value });
+      Object.defineProperty(PartyServer, key, { value });
       continue;
     }
 
@@ -48,3 +52,5 @@ export function mkEffectMethod3(f) {
     f(this)(a)(b)();
   }
 }
+
+

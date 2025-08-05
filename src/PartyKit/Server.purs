@@ -133,6 +133,8 @@ foreign import mkEffectMethod2 :: forall this a r. (this -> a -> Effect r) -> Ef
 
 foreign import mkEffectMethod3 :: forall this a b r. (this -> a -> b -> Effect r) -> EffectFn2 a b r
 
+-- foreign import room ∷ PartyServer -> Room
+
 room :: PartyServer -> Room
 room = unsafeCoerce >>> _.room
 
