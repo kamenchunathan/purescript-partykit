@@ -1,4 +1,4 @@
-export const broadcast = room => message => exceptionIds => {
+export function broadcastImpl(room, message, exceptionIds) {
   room.broadcast(message, exceptionIds);
 }
 

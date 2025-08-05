@@ -57,7 +57,11 @@ vectorize :: Room -> String
 vectorize = unsafeCoerce >>> _.ai
 
 -- TODO:(nathan) Add ArrayBuffer 
-foreign import broadcast :: Room -> String -> Array String -> Effect Unit
+foreign import broadcastImpl :: EffectFn3 Room  String  (Array String) Unit
+
+
+broadcast :: Room -> String -> Array String -> Effect Unit
+broadcast = runEffectFn3 broadcastImpl
 
 parties :: Context -> Foreign
 parties = unsafeCoerce >>> _.uri
