@@ -5,6 +5,7 @@ package:
     - aff-promise
     - console
     - effect
+    - ordered-collections
     - partykit
     - prelude
     - simple-json

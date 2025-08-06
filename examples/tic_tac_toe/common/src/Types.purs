@@ -13,17 +13,19 @@ derive instance Ord Counter
 derive newtype instance ReadForeign Counter
 derive newtype instance WriteForeign Counter
 
-data ClientMessage = Increment
+data ClientMessage = Increment | Decrement
 
 instance WriteForeign ClientMessage where
   writeImpl = case _ of
     Increment -> write "Increment"
+    Decrement -> write "Decrement"
 
 instance ReadForeign ClientMessage where
   readImpl value = do
     str <- except $ read value
     case str of
       "Increment" -> pure Increment
+      "Decrement" -> pure Decrement
       _ -> fail $ ForeignError "Could not decode ClientMessage"
 
 data ServerMessage = UpdateCount Counter

@@ -31,6 +31,7 @@ initialState _ = { partySocket: Nothing, count: Nothing }
 data Action
   = Connect
   | Incr
+  | Decr
   | HandleMessage (Maybe ServerMessage)
 
 handleAction :: forall o m. MonadAff m => Action -> H.HalogenM State Action () o m Unit
@@ -56,6 +57,12 @@ handleAction = case _ of
     sock <- H.gets _.partySocket
     case sock of
       Just s -> liftEffect $ sendString s (writeJSON Increment)
+      Nothing -> pure unit
+
+  Decr -> do
+    sock <- H.gets _.partySocket
+    case sock of
+      Just s -> liftEffect $ sendString s (writeJSON Decrement)
       Nothing -> pure unit
 
   HandleMessage (Just (UpdateCount c)) -> do
@@ -96,11 +103,18 @@ render state =
                     Just (Counter c) -> show c
                     Nothing -> "..."
                 ]
-            , HH.button
-                [ HP.class_ $ ClassName "px-10 py-5 bg-green-500 text-white font-bold rounded-full shadow-xl hover:bg-green-600 focus:outline-none focus:ring-4 focus:ring-green-400 focus:ring-opacity-50 transform hover:scale-105 transition-all duration-300 ease-in-out"
-                , HE.onClick \_ -> Incr
+            , HH.div [ HP.class_ $ ClassName "flex space-x-4" ]
+                [ HH.button
+                    [ HP.class_ $ ClassName "px-10 py-5 bg-green-500 text-white font-bold rounded-full shadow-xl hover:bg-green-600 focus:outline-none focus:ring-4 focus:ring-green-400 focus:ring-opacity-50 transform hover:scale-105 transition-all duration-300 ease-in-out"
+                    , HE.onClick \_ -> Incr
+                    ]
+                    [ HH.text "Increment" ]
+                , HH.button
+                    [ HP.class_ $ ClassName "px-10 py-5 bg-red-500 text-white font-bold rounded-full shadow-xl hover:bg-red-600 focus:outline-none focus:ring-4 focus:ring-red-400 focus:ring-opacity-50 transform hover:scale-105 transition-all duration-300 ease-in-out"
+                    , HE.onClick \_ -> Decr
+                    ]
+                    [ HH.text "Decrement" ]
                 ]
-                [ HH.text "Increment" ]
             ]
     ]
 

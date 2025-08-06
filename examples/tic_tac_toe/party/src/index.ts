@@ -1,4 +1,4 @@
-import { main } from "../../output/Server/index.js"
+import { main } from "../../output-es/Server/index.js"
 
 
 export default main()
