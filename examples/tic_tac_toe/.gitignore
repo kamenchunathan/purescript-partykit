@@ -176,3 +176,5 @@ node_modules/
 
 # ignore built css
 public/style.css
+
+.wrangler

@@ -1,5 +1,5 @@
 package:
-  name: tic-tac-toe-server
+  name: server
   dependencies:
     - aff
     - aff-promise

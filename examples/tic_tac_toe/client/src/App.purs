@@ -19,6 +19,10 @@ import PartyKit.PartySocket (PartySocket, createPartySocket, sendString)
 import PartyKit.PartySocket as PartySocket
 import Simple.JSON (writeJSON, readJSON)
 import Types (ClientMessage(..), Counter(..), ServerMessage(..))
+import Web.HTML (window)
+import Web.HTML.Window (location)
+import Web.HTML.Location (host)
+
 
 type State =
   { partySocket :: Maybe PartySocket
@@ -41,10 +45,11 @@ handleAction = case _ of
     case sock of
       Just _ -> pure unit
       Nothing -> do
-        liftEffect $ Console.log "bingo"
+        liftEffect $ Console.log "Counter Application"
+        partySocketHost <- liftEffect $ window >>= location >>= host
         partySocket <- H.liftEffect $
           createPartySocket
-            { host: "localhost:1999"
+            { host: partySocketHost
             , room: "counter"
             , id: Nothing
             , party: Nothing

@@ -1,6 +1,12 @@
 {
   "$schema": "https://www.partykit.io/schema.json",
-  "name": "tic-tac-toe-party",
+  "name": "purescript-partykit-test",
   "main": "party/src/index.ts",
+  "serve": {
+    "path": "./dist"
+  },
+  "build": {
+    "command": "npm run build"
+  },
   "compatibilityDate": "2024-09-05"
 }

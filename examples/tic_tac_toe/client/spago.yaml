@@ -1,5 +1,5 @@
 package:
-  name: tic-tac-toe-client
+  name: client
   dependencies:
     - console
     - debug
@@ -12,6 +12,7 @@ package:
     - prelude
     - simple-json
     - web-events
+    - web-html
   test:
     main: Test.Main
     dependencies: []

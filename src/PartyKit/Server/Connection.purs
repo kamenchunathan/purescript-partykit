@@ -23,4 +23,3 @@ foreign import sendImpl :: EffectFn2 Connection String Unit
 
 send :: Connection -> String -> Effect Unit
 send = runEffectFn2 sendImpl
-

@@ -10,6 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "partyserver": "0.0.66",
     "partysocket": "^1.0.2"
   }
 }

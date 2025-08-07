@@ -10,7 +10,6 @@ import Data.Map as Map
 import Data.Maybe (Maybe(..), fromMaybe)
 import Data.Tuple (Tuple)
 import Data.Tuple.Nested ((/\))
-import Debug as Debug
 import Effect (Effect)
 import Effect.Aff (Aff, runAff_)
 import Effect.Class (liftEffect)
@@ -46,7 +45,7 @@ onConnect :: PartyServer -> Connection -> ConnectionContext -> Effect Unit
 onConnect server connection _ = do
   liftEffect $ Console.log $ "Connected: " <> Connection.id connection
   runAff_ 
-    ((Console.logShow >>> Debug.spy "wow" ) >>> const (pure unit)) 
+    (Console.logShow  >>> const (pure unit)) 
     (recalculateAndBroadcast (Server.room server))
 
 

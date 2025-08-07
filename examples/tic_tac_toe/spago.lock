@@ -1,61 +1,6 @@
 workspace:
   packages:
-    common:
-      path: common
-      dependencies:
-        - console
-        - effect
-        - prelude
-        - simple-json
-      test_dependencies: []
-      build_plan:
-        - arrays
-        - bifunctors
-        - console
-        - const
-        - contravariant
-        - control
-        - distributive
-        - effect
-        - either
-        - enums
-        - exceptions
-        - exists
-        - foldable-traversable
-        - foreign
-        - foreign-object
-        - functions
-        - functors
-        - gen
-        - identity
-        - integers
-        - invariant
-        - lazy
-        - lists
-        - maybe
-        - newtype
-        - nonempty
-        - nullable
-        - numbers
-        - orders
-        - partial
-        - prelude
-        - profunctor
-        - record
-        - refs
-        - safe-coerce
-        - simple-json
-        - st
-        - strings
-        - tailrec
-        - transformers
-        - tuples
-        - type-equality
-        - typelevel-prelude
-        - unfoldable
-        - unsafe-coerce
-        - variant
-    tic-tac-toe-client:
+    client:
       path: client
       dependencies:
         - console
@@ -69,6 +14,7 @@ workspace:
         - prelude
         - simple-json
         - web-events
+        - web-html
       test_dependencies: []
       build_plan:
         - aff
@@ -148,7 +94,62 @@ workspace:
         - web-storage
         - web-touchevents
         - web-uievents
-    tic-tac-toe-server:
+    common:
+      path: common
+      dependencies:
+        - console
+        - effect
+        - prelude
+        - simple-json
+      test_dependencies: []
+      build_plan:
+        - arrays
+        - bifunctors
+        - console
+        - const
+        - contravariant
+        - control
+        - distributive
+        - effect
+        - either
+        - enums
+        - exceptions
+        - exists
+        - foldable-traversable
+        - foreign
+        - foreign-object
+        - functions
+        - functors
+        - gen
+        - identity
+        - integers
+        - invariant
+        - lazy
+        - lists
+        - maybe
+        - newtype
+        - nonempty
+        - nullable
+        - numbers
+        - orders
+        - partial
+        - prelude
+        - profunctor
+        - record
+        - refs
+        - safe-coerce
+        - simple-json
+        - st
+        - strings
+        - tailrec
+        - transformers
+        - tuples
+        - type-equality
+        - typelevel-prelude
+        - unfoldable
+        - unsafe-coerce
+        - variant
+    server:
       path: party
       dependencies:
         - aff
@@ -697,9 +698,6 @@ workspace:
       z3: 0.0.2
       zipperarray: 2.0.0
   extra_packages:
-    option:
-      git: https://github.com/kamenchunathan/purescript-option.git
-      ref: f6f46ffe48047873a4e76d45fb86cf705040ceec
     partykit:
       path: ../../
 packages:

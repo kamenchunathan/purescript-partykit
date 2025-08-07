@@ -1,5 +1,5 @@
 import "./style.css"
-import { main } from '../../output/Client/index.js'
+import { main } from '../../output-es/Client/index.js'
 
 main();
 
