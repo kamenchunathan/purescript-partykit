@@ -2,19 +2,19 @@ export function createImpl(properties) {
   let PartyServer = class {
     constructor(room) {
       this.room = room;
-      properties.constructor(room)
+      properties.constructor(room);
     }
-  }
+  };
 
   for (const [key, value] of Object.entries(properties)) {
     if (value == null) {
-      continue
+      continue;
     }
-    if (key == 'constructor') {
+    if (key == "constructor") {
       continue;
     }
     // static functions
-    else if (key === 'onBeforeRequest' || key === 'onBeforeConnect') {
+    else if (key === "onBeforeRequest" || key === "onBeforeConnect") {
       Object.defineProperty(PartyServer, key, { value });
       continue;
     }
@@ -26,31 +26,29 @@ export function createImpl(properties) {
 }
 
 export function eitherImpl(l) {
-  return function(r) {
-    return function(cb) {
-      return function(val) {
-        return cb((typeof (val) === 'string') ? l(val) : r(val));
-      }
-    }
-  }
+  return function (r) {
+    return function (cb) {
+      return function (val) {
+        return cb(typeof val === "string" ? l(val) : r(val));
+      };
+    };
+  };
 }
 
 export function mkEffectMethod1(f) {
-  return function() {
+  return function () {
     f(this)();
-  }
+  };
 }
 
 export function mkEffectMethod2(f) {
-  return function(a) {
+  return function (a) {
     f(this)(a)();
-  }
+  };
 }
 
 export function mkEffectMethod3(f) {
-  return function(a, b) {
+  return function (a, b) {
     f(this)(a)(b)();
-  }
+  };
 }
-
-
