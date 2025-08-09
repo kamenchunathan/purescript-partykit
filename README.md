@@ -62,5 +62,6 @@ main = do
 The `examples/tic_tac_toe` directory contains a complete example of a multiplayer tic-tac-toe game built with `purescript-partykit`.
 
 ## Roadmap / TODO
-  - [ ] Write implementations for the partyserver library as well allowing deployments to cloudflare directly using wrangler.dev
 
+- [x] Write implementations for the partyserver library as well allowing deployments to cloudflare directly using wrangler.dev
+- [ ] Add bindings for the key value and sql storage classes
