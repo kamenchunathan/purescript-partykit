@@ -1,0 +1,19 @@
+package:
+  name: client
+  dependencies:
+    - console
+    - common
+    - debug
+    - effect
+    - foreign
+    - halogen
+    - integers
+    - newtype
+    - partysocket
+    - prelude
+    - simple-json
+    - web-events
+    - web-html
+  test:
+    main: Test.Main
+    dependencies: []

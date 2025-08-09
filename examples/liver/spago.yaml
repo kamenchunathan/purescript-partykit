@@ -1,0 +1,8 @@
+workspace:
+  packageSet:
+    registry: 50.1.2
+  extraPackages:
+    partysocket:
+      path: ../../packages/partysocket
+    partyserver:
+      path: ../../packages/partyserver

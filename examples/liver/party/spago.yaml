@@ -1,0 +1,17 @@
+package:
+  name: server
+  dependencies:
+    - aff
+    - aff-promise
+    - common
+    - console
+    - effect
+    - fetch-core
+    - maybe
+    - ordered-collections
+    - partyserver
+    - prelude
+    - simple-json
+  test:
+    main: Test.Main
+    dependencies: []

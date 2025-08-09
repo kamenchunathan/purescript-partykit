@@ -1,0 +1,17 @@
+compatibility_date = "2025-04-01"
+name = "purescript-partykit-liver-example"
+main = "./party/src/index.ts"
+
+[durable_objects]
+bindings = [{ name = "LIVE", class_name = "Live" }]
+
+[[migrations]]
+tag = "v1"
+new_sqlite_classes = ["Live"]
+
+[assets]
+directory = "./dist"
+binding = "ASSETS"
+
+[build]
+command = "pnpm build"
