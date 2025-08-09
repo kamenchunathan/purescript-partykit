@@ -1,0 +1,10 @@
+compatibility_date = "2025-04-01"
+name = "purescript-partykit-liver-example"
+main = "./party/src/index.ts"
+
+[durable_objects]
+bindings = [{ name = "LIVER_PARTY", class_name = "Server" }]
+
+[[migrations]]
+tag = "v1"
+new_classes = ["Server"]

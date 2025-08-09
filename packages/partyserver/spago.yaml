@@ -1,8 +1,11 @@
 package:
   name: partyserver
   dependencies:
+    - aff
+    - aff-promise
     - console
     - effect
+    - fetch-core
     - prelude
   test:
     main: Test.Main
