@@ -6,7 +6,10 @@ import Data.Array as Array
 import Data.Either (hush)
 import Data.Map (Map)
 import Data.Map as Map
-import Data.Maybe (Maybe(..))
+import Data.Array ((!!))
+import Data.Maybe (Maybe(..), fromMaybe)
+import Data.String as String
+import Data.Tuple (Tuple(..))
 import Effect (Effect)
 import Effect.Aff.Class (class MonadAff)
 import Effect.Class (liftEffect)
@@ -27,13 +30,15 @@ import Web.HTML.Window (location)
 import Web.HTML.Location (host)
 import Web.UIEvent.MouseEvent (MouseEvent, clientX, clientY)
 
-type State =
+
+type State = 
   { partySocket :: Maybe PartySocket
   , positions :: Map String { x :: Int, y :: Int }
+  , selfId :: Maybe String
   }
 
 initialState :: forall input. input -> State
-initialState _ = { partySocket: Nothing,  positions: Map.empty }
+initialState _ = { partySocket: Nothing, positions: Map.empty, selfId: Nothing }
 
 data Action
   = Connect
@@ -43,26 +48,26 @@ data Action
 handleAction :: forall o m. MonadAff m => Action -> H.HalogenM State Action () o m Unit
 handleAction = case _ of
   Connect -> do
-    sock <- H.gets _.partySocket
-    case sock of
+    st <- H.get
+    case st.partySocket of 
       Just _ -> pure unit
       Nothing -> do
         liftEffect $ Console.log "Starting Application"
         partySocketHost <- liftEffect $ window >>= location >>= host
         partySocket <- H.liftEffect $
-          createPartySocket
+          createPartySocket 
             { host: partySocketHost
             , room: "counter"
             , id: Nothing
             , party: Just "live"
             }
-        void $ H.modify_ _ { partySocket = Just partySocket }
+        H.put st { partySocket = Just partySocket, selfId = Nothing , positions = st.positions }
         s <- liftEffect $ partySocketSource partySocket
         void $ H.subscribe s
 
   HandleMessage (Just (BroadcastMousePosition pos)) -> do
     H.modify_ \st -> st { positions = Map.insert pos.id { x: pos.x, y: pos.y } st.positions }
-  HandleMessage _ ->
+  HandleMessage _ -> 
     pure unit
 
   UpdateMousePosition event -> do
@@ -79,26 +84,57 @@ partySocketSource sock = do
   Console.log "Hello world"
   pure $ eventListener PartySocket.onMessage (PartySocket.toEventTarget sock) eventToAction
   where
-  eventToAction event = PartySocket.fromEvent event
-    <#> PartySocket.data_
+  eventToAction event = PartySocket.fromEvent event 
+    <#> PartySocket.data_ 
     <#> (readJSON >>> (map $ HandleMessage <<< Just) >>> hush)
     # join
 
+colorForId :: String -> String
+colorForId id =
+  let
+    colors = ["bg-red-500", "bg-blue-500", "bg-green-500", "bg-yellow-500", "bg-purple-500", "bg-pink-500"]
+    index = String.length id `mod` Array.length colors
+  in
+    fromMaybe "bg-gray-500" (colors !! index)
+
 render :: forall cs m. State -> H.ComponentHTML Action cs m
 render state =
-  HH.div
-    [ HE.onMouseMove UpdateMousePosition
-    , HP.style "height: 100vh; width: 100vw; position: relative;"
-    ]
-    ( (Map.values state.positions) <#> (\{ x, y } ->
-        HH.div
-          [ HP.class_ (ClassName "cursor")
-          , HP.style ("left: " <> show x <> "px; top: " <> show y <> "px;")
+  HH.main
+    [ HP.class_ $ ClassName "bg-gray-50 text-gray-800 min-h-screen font-sans" ]
+    [ HH.div
+        [ HE.onMouseMove UpdateMousePosition
+        , HP.classes [ClassName "relative w-full h-screen cursor-none"]
+        ]
+        ( [ HH.div
+              [ HP.classes [ClassName "absolute top-0 left-0 right-0 p-4 text-center"] ]
+              [ HH.h1
+                  [ HP.classes [ClassName "text-3xl font-bold"] ]
+                  [ HH.text "PureScript ❤️ PartyKit" ]
+              , HH.p
+                  [ HP.classes [ClassName "text-lg text-gray-600"] ]
+                  [ HH.text "Real-time cursors with Cloudflare's PartyServer" ]
+              ]
           ]
-          []
-      )
-      # Array.fromFoldable
-    )
+            <> ( Map.toUnfoldable state.positions <#> \(Tuple id pos) ->
+                  let
+                    colorClass = colorForId id
+                    isSelf = state.selfId == Just id
+                    label = if isSelf then "You" else String.take 4 id
+                  in
+                    HH.div
+                      [ HP.classes [ClassName "absolute flex items-center space-x-2 pointer-events-none"]
+                      , HP.style ("left: " <> show pos.x <> "px; top: " <> show pos.y <> "px;")
+                      ]
+                      [ HH.div -- cursor
+                          [ HP.classes [ClassName "w-4 h-4 rounded-full", ClassName colorClass] ]
+                          []
+                      , HH.div -- label
+                          [ HP.classes [ClassName "px-2 py-1 text-sm text-white rounded-md", ClassName colorClass] ]
+                          [ HH.text label ]
+                      ]
+               )
+        )
+    ]
 
 component :: forall q o m. MonadAff m => H.Component q Unit o m
 component = H.mkComponent

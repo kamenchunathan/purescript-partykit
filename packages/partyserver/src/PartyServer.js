@@ -2,6 +2,11 @@ import { Server } from "partyserver";
 
 export function createImpl(properties) {
   return class extends Server {
+    constructor(ctx, env) {
+      super(ctx, env);
+      this.env = env;
+    }
+
     onStart() {
       if (properties.onStart) {
         properties.onStart(this);
@@ -64,4 +69,12 @@ export function getConnectionImpl(server, id) {
 
 export function getConnectionsImpl(server, tag) {
   return Array.from(server.getConnections(tag ?? undefined));
+}
+
+export async function getStorage(server, key) {
+  server.env.Room.get(key);
+}
+
+export async function storageSet(server, string, val) {
+  await server.env.Room.put(string, val);
 }

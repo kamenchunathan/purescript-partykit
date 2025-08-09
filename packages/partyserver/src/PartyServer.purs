@@ -15,7 +15,6 @@ import Data.Maybe (Maybe)
 import Data.Nullable (Nullable, toMaybe, toNullable)
 import Effect (Effect)
 import Effect.Aff (Aff)
-import Effect.Aff.Compat (runEffectFn1)
 import Fetch.Core.Request (Request)
 import Fetch.Core.Response (Response)
 import Effect.Uncurried
@@ -38,7 +37,7 @@ import Unsafe.Coerce (unsafeCoerce)
 foreign import data Server :: Type -> Type
 
 
-foreign import createImpl :: ∀ s. EffectFn1 (ArgsImpl s) (Server s)
+foreign import createImpl :: ∀ s. ArgsImpl s -> Server s
 
 type RequiredArgs :: forall k. Row k
 type RequiredArgs = ()
@@ -70,9 +69,9 @@ create
    . Union args r (OptionalArgs s)
   => Union RequiredArgs args complete
   => Record complete
-  -> Effect (Server s)
+  -> Server s
 create args =
-  runEffectFn1 createImpl $ toArgsImpl $ unsafeCoerce args
+  createImpl $ toArgsImpl $ unsafeCoerce args
   where
   toArgsImpl
     :: { onConnect :: Nullable (Server s -> Connection s -> ConnectionContext -> Aff Unit)
