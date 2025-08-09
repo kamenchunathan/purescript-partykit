@@ -1,7 +1,3 @@
-export function broadcastImpl(room, message, exceptionIds) {
-  room.broadcast(message, exceptionIds);
-}
-
 export function getImpl(storage, key) {
   return storage.get(key);
 }

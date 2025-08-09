@@ -85,4 +85,4 @@ fromEvent = unsafeReadProtoTagged "MessageEvent"
 -- TODO: This may be either a string or an arraybuffer, for now I do not handle the case where
 -- binary data
 data_ :: MessageEvent -> String
-data_ = unsafeCoerce >>> _.data 
+data_ = unsafeCoerce >>> _.data

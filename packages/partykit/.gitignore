@@ -10,5 +10,3 @@ generated-docs/
 .purs*
 .psa*
 .spago
-.partykit
-.direnv

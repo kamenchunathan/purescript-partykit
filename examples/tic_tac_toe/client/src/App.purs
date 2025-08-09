@@ -23,7 +23,6 @@ import Web.HTML (window)
 import Web.HTML.Window (location)
 import Web.HTML.Location (host)
 
-
 type State =
   { partySocket :: Maybe PartySocket
   , count :: Maybe Counter

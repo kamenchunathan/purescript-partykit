@@ -1,166 +1,18 @@
 workspace:
   packages:
-    client:
-      path: client
+    partysocket:
+      path: ./
       dependencies:
-        - console
-        - debug
-        - effect
-        - foreign
-        - halogen
-        - integers
-        - newtype
-        - partysocket
-        - prelude
-        - simple-json
-        - web-events
-        - web-html
-      test_dependencies: []
-      build_plan:
         - aff
         - aff-promise
         - arraybuffer-types
-        - arrays
-        - avar
-        - bifunctors
-        - catenable-lists
         - console
-        - const
-        - contravariant
-        - control
-        - datetime
-        - debug
-        - distributive
-        - dom-indexed
         - effect
         - either
-        - enums
-        - exceptions
-        - exists
-        - foldable-traversable
-        - foreign
-        - foreign-object
-        - fork
-        - free
-        - freeap
-        - functions
-        - functors
-        - gen
-        - halogen
-        - halogen-subscriptions
-        - halogen-vdom
-        - identity
-        - integers
-        - invariant
-        - js-date
-        - js-promise
-        - lazy
-        - lists
-        - maybe
-        - media-types
-        - newtype
-        - nonempty
-        - now
         - nullable
-        - numbers
-        - ordered-collections
-        - orders
-        - parallel
-        - partial
-        - partysocket
         - prelude
-        - profunctor
         - record
-        - refs
-        - safe-coerce
-        - simple-json
-        - st
-        - strings
-        - tailrec
-        - transformers
-        - tuples
-        - type-equality
-        - typelevel-prelude
-        - unfoldable
-        - unsafe-coerce
-        - unsafe-reference
-        - variant
-        - web-clipboard
-        - web-dom
         - web-events
-        - web-file
-        - web-html
-        - web-pointerevents
-        - web-storage
-        - web-touchevents
-        - web-uievents
-    common:
-      path: common
-      dependencies:
-        - console
-        - effect
-        - prelude
-        - simple-json
-      test_dependencies: []
-      build_plan:
-        - arrays
-        - bifunctors
-        - console
-        - const
-        - contravariant
-        - control
-        - distributive
-        - effect
-        - either
-        - enums
-        - exceptions
-        - exists
-        - foldable-traversable
-        - foreign
-        - foreign-object
-        - functions
-        - functors
-        - gen
-        - identity
-        - integers
-        - invariant
-        - lazy
-        - lists
-        - maybe
-        - newtype
-        - nonempty
-        - nullable
-        - numbers
-        - orders
-        - partial
-        - prelude
-        - profunctor
-        - record
-        - refs
-        - safe-coerce
-        - simple-json
-        - st
-        - strings
-        - tailrec
-        - transformers
-        - tuples
-        - type-equality
-        - typelevel-prelude
-        - unfoldable
-        - unsafe-coerce
-        - variant
-    server:
-      path: party
-      dependencies:
-        - aff
-        - aff-promise
-        - console
-        - effect
-        - maybe
-        - ordered-collections
-        - partykit
-        - prelude
-        - simple-json
       test_dependencies: []
       build_plan:
         - aff
@@ -181,7 +33,6 @@ workspace:
         - exists
         - foldable-traversable
         - foreign
-        - foreign-object
         - functions
         - functors
         - gen
@@ -199,23 +50,19 @@ workspace:
         - orders
         - parallel
         - partial
-        - partykit
         - prelude
         - profunctor
         - record
         - refs
         - safe-coerce
-        - simple-json
         - st
         - strings
         - tailrec
         - transformers
         - tuples
         - type-equality
-        - typelevel-prelude
         - unfoldable
         - unsafe-coerce
-        - variant
         - web-events
   package_set:
     address:
@@ -697,11 +544,7 @@ workspace:
       yoga-tree: 1.0.0
       z3: 0.0.2
       zipperarray: 2.0.0
-  extra_packages:
-    partykit:
-      path: ../../packages/partykit
-    partysocket:
-      path: ../../packages/partysocket
+  extra_packages: {}
 packages:
   aff:
     type: registry
@@ -756,17 +599,6 @@ packages:
       - tuples
       - unfoldable
       - unsafe-coerce
-  avar:
-    type: registry
-    version: 5.0.0
-    integrity: sha256-e7hf0x4hEpcygXP0LtvfvAQ49Bbj2aWtZT3gqM///0A=
-    dependencies:
-      - aff
-      - effect
-      - either
-      - exceptions
-      - functions
-      - maybe
   bifunctors:
     type: registry
     version: 6.0.0
@@ -777,18 +609,6 @@ packages:
       - newtype
       - prelude
       - tuples
-  catenable-lists:
-    type: registry
-    version: 7.0.0
-    integrity: sha256-76vYENhwF4BWTBsjeLuErCH2jqVT4M3R1HX+4RwSftA=
-    dependencies:
-      - control
-      - foldable-traversable
-      - lists
-      - maybe
-      - prelude
-      - tuples
-      - unfoldable
   console:
     type: registry
     version: 6.1.0
@@ -842,13 +662,6 @@ packages:
       - partial
       - prelude
       - tuples
-  debug:
-    type: registry
-    version: 6.0.2
-    integrity: sha256-vmkYFuXYuELBzeauvgHG6E6Kf/Hp1dAnxwE9ByHfwSg=
-    dependencies:
-      - functions
-      - prelude
   distributive:
     type: registry
     version: 6.0.0
@@ -859,16 +672,6 @@ packages:
       - prelude
       - tuples
       - type-equality
-  dom-indexed:
-    type: registry
-    version: 12.0.0
-    integrity: sha256-bltgxNRfJrJc73YirgM+8u4AqdJAsuaKr7epwzIayF0=
-    dependencies:
-      - media-types
-      - prelude
-      - web-clipboard
-      - web-pointerevents
-      - web-touchevents
   effect:
     type: registry
     version: 4.0.0
@@ -944,57 +747,6 @@ packages:
       - prelude
       - strings
       - transformers
-  foreign-object:
-    type: registry
-    version: 4.1.0
-    integrity: sha256-q24okj6mT+yGHYQ+ei/pYPj5ih6sTbu7eDv/WU56JVo=
-    dependencies:
-      - arrays
-      - foldable-traversable
-      - functions
-      - gen
-      - lists
-      - maybe
-      - prelude
-      - st
-      - tailrec
-      - tuples
-      - typelevel-prelude
-      - unfoldable
-  fork:
-    type: registry
-    version: 6.0.0
-    integrity: sha256-X7u0SuCvFbLbzuNEKLBNuWjmcroqMqit4xEzpQwAP7E=
-    dependencies:
-      - aff
-  free:
-    type: registry
-    version: 7.1.0
-    integrity: sha256-JAumgEsGSzJCNLD8AaFvuX7CpqS5yruCngi6yI7+V5k=
-    dependencies:
-      - catenable-lists
-      - control
-      - distributive
-      - either
-      - exists
-      - foldable-traversable
-      - invariant
-      - lazy
-      - maybe
-      - prelude
-      - tailrec
-      - transformers
-      - tuples
-      - unsafe-coerce
-  freeap:
-    type: registry
-    version: 7.0.0
-    integrity: sha256-T1VbmNxdNSKEgV4p8uFFv0F16cz+Xx1BkfF64etSdNI=
-    dependencies:
-      - const
-      - exists
-      - gen
-      - lists
   functions:
     type: registry
     version: 6.0.0
@@ -1034,60 +786,6 @@ packages:
       - tailrec
       - tuples
       - unfoldable
-  halogen:
-    type: registry
-    version: 7.0.0
-    integrity: sha256-aAE8oW32YiDdA3oQZxPbFkK4n31paT4JL6pvzOe47YE=
-    dependencies:
-      - aff
-      - avar
-      - console
-      - const
-      - dom-indexed
-      - effect
-      - foreign
-      - fork
-      - free
-      - freeap
-      - halogen-subscriptions
-      - halogen-vdom
-      - media-types
-      - nullable
-      - ordered-collections
-      - parallel
-      - profunctor
-      - transformers
-      - unsafe-coerce
-      - unsafe-reference
-      - web-file
-      - web-uievents
-  halogen-subscriptions:
-    type: registry
-    version: 2.0.0
-    integrity: sha256-8/BPME/sC/kWMDxp0+n4k09gA1IIedXn2yUJ4pCH5xw=
-    dependencies:
-      - arrays
-      - effect
-      - foldable-traversable
-      - functors
-      - refs
-      - safe-coerce
-      - unsafe-reference
-  halogen-vdom:
-    type: registry
-    version: 8.0.0
-    integrity: sha256-5UMDekaYNSM3jtpfWoWTbmZ38rIcnguzGRW3z+IQgV4=
-    dependencies:
-      - bifunctors
-      - effect
-      - foreign
-      - foreign-object
-      - maybe
-      - prelude
-      - refs
-      - tuples
-      - unsafe-coerce
-      - web-html
   identity:
     type: registry
     version: 6.0.0
@@ -1111,28 +809,6 @@ packages:
     integrity: sha256-RGWWyYrz0Hs1KjPDA+87Kia67ZFBhfJ5lMGOMCEFoLo=
     dependencies:
       - control
-      - prelude
-  js-date:
-    type: registry
-    version: 8.0.0
-    integrity: sha256-6TVF4DWg5JL+jRAsoMssYw8rgOVALMUHT1CuNZt8NRo=
-    dependencies:
-      - datetime
-      - effect
-      - exceptions
-      - foreign
-      - integers
-      - now
-  js-promise:
-    type: registry
-    version: 1.0.0
-    integrity: sha256-kXNo5g9RJgPdrTuKRe5oG2kBIwPp+j5VDPDplqZBJzQ=
-    dependencies:
-      - effect
-      - exceptions
-      - foldable-traversable
-      - functions
-      - maybe
       - prelude
   lazy:
     type: registry
@@ -1169,13 +845,6 @@ packages:
       - invariant
       - newtype
       - prelude
-  media-types:
-    type: registry
-    version: 6.0.0
-    integrity: sha256-n/4FoGBasbVSYscGVRSyBunQ6CZbL3jsYL+Lp01mc9k=
-    dependencies:
-      - newtype
-      - prelude
   newtype:
     type: registry
     version: 5.0.0
@@ -1194,13 +863,6 @@ packages:
       - prelude
       - tuples
       - unfoldable
-  now:
-    type: registry
-    version: 6.0.0
-    integrity: sha256-xZ7x37ZMREfs6GCDw/h+FaKHV/3sPWmtqBZRGTxybQY=
-    dependencies:
-      - datetime
-      - effect
   nullable:
     type: registry
     version: 6.0.0
@@ -1260,34 +922,6 @@ packages:
     version: 4.0.0
     integrity: sha256-fwXerld6Xw1VkReh8yeQsdtLVrjfGiVuC5bA1Wyo/J4=
     dependencies: []
-  partykit:
-    type: local
-    path: ../../packages/partykit
-    dependencies:
-      - aff
-      - aff-promise
-      - arraybuffer-types
-      - console
-      - effect
-      - either
-      - nullable
-      - prelude
-      - record
-      - web-events
-  partysocket:
-    type: local
-    path: ../../packages/partysocket
-    dependencies:
-      - aff
-      - aff-promise
-      - arraybuffer-types
-      - console
-      - effect
-      - either
-      - nullable
-      - prelude
-      - record
-      - web-events
   prelude:
     type: registry
     version: 6.0.1
@@ -1327,20 +961,6 @@ packages:
     integrity: sha256-a1ibQkiUcbODbLE/WAq7Ttbbh9ex+x33VCQ7GngKudU=
     dependencies:
       - unsafe-coerce
-  simple-json:
-    type: registry
-    version: 9.0.0
-    integrity: sha256-K3RJaThqsszTd+TEklzZmAdDqvIHWgXIfKqlsoykU1c=
-    dependencies:
-      - arrays
-      - exceptions
-      - foreign
-      - foreign-object
-      - nullable
-      - prelude
-      - record
-      - typelevel-prelude
-      - variant
   st:
     type: registry
     version: 6.2.0
@@ -1416,13 +1036,6 @@ packages:
     version: 4.0.1
     integrity: sha256-Hs9D6Y71zFi/b+qu5NSbuadUQXe5iv5iWx0226vOHUw=
     dependencies: []
-  typelevel-prelude:
-    type: registry
-    version: 7.0.0
-    integrity: sha256-uFF2ph+vHcQpfPuPf2a3ukJDFmLhApmkpTMviHIWgJM=
-    dependencies:
-      - prelude
-      - type-equality
   unfoldable:
     type: registry
     version: 6.0.0
@@ -1438,38 +1051,6 @@ packages:
     version: 6.0.0
     integrity: sha256-IqIYW4Vkevn8sI+6aUwRGvd87tVL36BBeOr0cGAE7t0=
     dependencies: []
-  unsafe-reference:
-    type: registry
-    version: 5.0.0
-    integrity: sha256-zU7BhfJU14nXQRZG9iADsp0mSiKhz07OcKyjRB2YT+Y=
-    dependencies:
-      - prelude
-  variant:
-    type: registry
-    version: 8.0.0
-    integrity: sha256-SR//zQDg2dnbB8ZHslcxieUkCeNlbMToapvmh9onTtw=
-    dependencies:
-      - enums
-      - lists
-      - maybe
-      - partial
-      - prelude
-      - record
-      - tuples
-      - unsafe-coerce
-  web-clipboard:
-    type: registry
-    version: 5.0.0
-    integrity: sha256-TbZEMovHhks9Qa7JXodJabvKDpeFkl6swfPKqhXd/lE=
-    dependencies:
-      - js-promise
-      - web-html
-  web-dom:
-    type: registry
-    version: 6.0.0
-    integrity: sha256-1kSKWFDI4LupdmpjK01b1MMxDFW7jvatEgPgVmCmSBQ=
-    dependencies:
-      - web-events
   web-events:
     type: registry
     version: 4.0.0
@@ -1479,49 +1060,3 @@ packages:
       - enums
       - foreign
       - nullable
-  web-file:
-    type: registry
-    version: 4.0.0
-    integrity: sha256-1h5jPBkvjY71jLEdwVadXCx86/2inNoMBO//Rd3eCSU=
-    dependencies:
-      - foreign
-      - media-types
-      - web-dom
-  web-html:
-    type: registry
-    version: 4.1.0
-    integrity: sha256-ByqS/h1/yG+hjCOnOQp7L1QpIWzQENNKB1kaHtpEhlE=
-    dependencies:
-      - js-date
-      - web-dom
-      - web-file
-      - web-storage
-  web-pointerevents:
-    type: registry
-    version: 2.0.0
-    integrity: sha256-uy1cI/Tck8Cf/MP0psvm2MLNxdijqfLZGLRq5FmuRh0=
-    dependencies:
-      - effect
-      - maybe
-      - prelude
-      - web-dom
-      - web-uievents
-  web-storage:
-    type: registry
-    version: 5.0.0
-    integrity: sha256-q+6lxcnfWxus0/nDeFVtF1V+tLehZvvXQ0cduYPLksY=
-    dependencies:
-      - nullable
-      - web-events
-  web-touchevents:
-    type: registry
-    version: 4.0.0
-    integrity: sha256-nDHMyXbkDfCEp299RLHCqj5HCDgWXFFy80lGoGjSzms=
-    dependencies:
-      - web-uievents
-  web-uievents:
-    type: registry
-    version: 5.0.0
-    integrity: sha256-5I+ut9JYno3wowti3vJGs1afKCm1ucppKuy+zhuSyss=
-    dependencies:
-      - web-html

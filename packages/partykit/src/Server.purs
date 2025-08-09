@@ -58,18 +58,17 @@ type OptionalArgs =
   )
 
 type ArgsImpl =
-  ( 
-  constructor :: Nullable.Nullable ( EffectFn1 Room Unit)
-  ,  onConnect :: Nullable.Nullable ( EffectFn2 Connection ConnectionContext Unit)
-  , onStart :: Nullable.Nullable ( Effect (Promise Unit))
+  ( constructor :: Nullable.Nullable (EffectFn1 Room Unit)
+  , onConnect :: Nullable.Nullable (EffectFn2 Connection ConnectionContext Unit)
+  , onStart :: Nullable.Nullable (Effect (Promise Unit))
   -- The void argument could either be a string or arraybuffer
-  , onMessage :: Nullable.Nullable ( EffectFn2 Void Connection (Promise Unit))
-  , onClose :: Nullable.Nullable ( EffectFn1 Connection (Promise Unit))
-  , onError :: Nullable.Nullable ( EffectFn2 Connection Error (Promise Unit))
-  , onRequest :: Nullable.Nullable ( EffectFn1 Request (Promise Unit))
-  , onAlarm :: Nullable.Nullable ( Effect (Promise Unit))
-  , onBeforeRequest :: Nullable.Nullable ( EffectFn3 Request Lobby ExecutionContext (Promise Request))
-  , onBeforeConnect :: Nullable.Nullable ( EffectFn3 Request Lobby ExecutionContext (Promise Request))
+  , onMessage :: Nullable.Nullable (EffectFn2 Void Connection (Promise Unit))
+  , onClose :: Nullable.Nullable (EffectFn1 Connection (Promise Unit))
+  , onError :: Nullable.Nullable (EffectFn2 Connection Error (Promise Unit))
+  , onRequest :: Nullable.Nullable (EffectFn1 Request (Promise Unit))
+  , onAlarm :: Nullable.Nullable (Effect (Promise Unit))
+  , onBeforeRequest :: Nullable.Nullable (EffectFn3 Request Lobby ExecutionContext (Promise Request))
+  , onBeforeConnect :: Nullable.Nullable (EffectFn3 Request Lobby ExecutionContext (Promise Request))
   )
 
 foreign import eitherImpl

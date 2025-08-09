@@ -9,7 +9,7 @@
     "dev:vite": "pnpm run build:purescript && vite",
     "dev:partykit": "partykit dev",
     "build": "pnpm run build:purescript && vite build",
-    "build:purescript": "spago build",
+    "build:purescript": "spago build && purs-backend-es build",
     "preview": "vite preview",
     "clean": "rm -rf node_modules .spago dist output"
   },

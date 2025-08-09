@@ -1,0 +1,20 @@
+package:
+  name: partysocket
+  dependencies:
+    - aff
+    - aff-promise
+    - arraybuffer-types
+    - console
+    - effect
+    - either
+    - nullable
+    - prelude
+    - record
+    - web-events
+  test:
+    main: Test.Main
+    dependencies: []
+workspace:
+  packageSet:
+    registry: 50.1.2
+  extraPackages: {}
